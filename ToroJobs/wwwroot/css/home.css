@@ -1,0 +1,12 @@
+﻿.text-center {
+    background-color: #1CCBF8;
+    width: 100%;
+    color: white;
+    padding: 150px;
+}
+
+.body-container {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    max-width: 100%;
+} 
