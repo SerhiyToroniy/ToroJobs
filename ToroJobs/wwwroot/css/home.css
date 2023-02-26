@@ -9,4 +9,20 @@
     padding-left: 0px !important;
     padding-right: 0px !important;
     max-width: 100%;
-} 
+}
+
+.register-2 {
+    background-color: #1CA3F8;
+    padding: 20px;
+    text-align: center;
+}
+
+.register-2-button {
+    background-color: #0CED49;
+    outline: none;
+    border: 0px;
+    box-shadow: 0px 0px 10px grey;
+    border-radius: 5px;
+    color: red;
+    padding: 5px 20px;
+}

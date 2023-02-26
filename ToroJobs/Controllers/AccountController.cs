@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using ToroJobs.Models;
 using ToroJobs.Views.ViewModels;
 using ToroJobs.Controllers;
+using System.Data;
 
 namespace ToroJobs.Controllers
 {
@@ -11,11 +12,13 @@ namespace ToroJobs.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -30,15 +33,29 @@ namespace ToroJobs.Controllers
             if (ModelState.IsValid)
             {
                 var user = new User { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                IdentityResult resUserCreated = await _userManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
+                string roleName = model.IsEmployer ? "Employer" : "Candidate";
+                var _role = await _roleManager.FindByNameAsync(roleName);
+                IdentityResult resRoleAddedToUser;
+                if (_role == null)
+                {
+                    IdentityRole role = new()
+                    {
+                        Name = roleName
+                    };
+                    await _roleManager.CreateAsync(role);
+                }
+
+                resRoleAddedToUser = await _userManager.AddToRoleAsync(user, roleName);
+
+                if (resUserCreated.Succeeded && resRoleAddedToUser.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
 
-                foreach (var error in result.Errors)
+                foreach (var error in resUserCreated.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
