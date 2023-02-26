@@ -14,5 +14,8 @@ namespace ToroJobs.Views.ViewModels
         [DataType(DataType.Password), Compare(nameof(Password))]
         public string ConfirmPassword { get; set; }
 
+        [Required]
+        public bool IsEmployer { get; set; }
+
     }
 }

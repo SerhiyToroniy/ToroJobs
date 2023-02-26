@@ -29,5 +29,13 @@ body {
 }
 
 #nav-item-right-side-register {
-    background-color: lightblue;
+    background: linear-gradient(45deg, #2BACF8, #07F7F8);
+}
+
+#navbar-brand-icon {
+    background-image: url("../img/logo.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:contain;
+    padding: 25px;
 }
