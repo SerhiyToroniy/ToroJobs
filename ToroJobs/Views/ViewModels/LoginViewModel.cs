@@ -15,5 +15,4 @@ namespace ToroJobs.Views.ViewModels
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
-
 }
